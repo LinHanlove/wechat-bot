@@ -1,0 +1,43 @@
+{
+  "name": "wechat-bot",
+  "version": "1.0.0-alpha.1",
+  "description": "wechat-bot",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node ./cli.js",
+    "start": "node ./cli.js",
+    "test": "node ./src/wechaty/testMessage.js",
+    "test-openai": "node ./src/openai/__test__.js",
+    "test-xunfei": "node ./src/xunfei/__test__.js",
+    "test-kimi": "node ./src/kimi/__test__.js",
+    "test-coze": "node ./src/coze/__test__.js"
+  },
+  "bin": {
+    "we": "./cli.js",
+    "wb": "./cli.js",
+    "wechat-bot": "./cli.js"
+  },
+  "author": "atom",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "chatgpt": "^2.5.2",
+    "commander": "^12.0.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "inquirer": "^9.2.16",
+    "openai": "^4.52.0",
+    "p-timeout": "^6.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "remark": "^14.0.2",
+    "strip-markdown": "^5.0.0",
+    "wechaty": "^1.20.2",
+    "wechaty-puppet-wechat4u": "^1.14.14",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7"
+  }
+}
