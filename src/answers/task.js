@@ -1,5 +1,6 @@
 import {bot} from '../index.js'
 import dotenv from 'dotenv'
+import schedule from 'node-schedule'
 import {getGoodMorning
   ,getWeather,
   getFriendsCircle,
@@ -25,8 +26,8 @@ export const task = async () => {
       // 文案
       const friendsCircle = await getFriendsCircle()
 
-      let strStart1 = `\n你的小寒开始工作啦！\n---小寒🥳\n\n${goodMorning}\n\n${friendsCircle}\n\n${weather1}`
-      let strStart2 = `\n你的小寒开始工作啦！\n---小寒🥳\n\n${goodMorning}\n\n${friendsCircle}\n\n${weather2}`
+      let strStart1 = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${weather1}`
+      let strStart2 = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${weather2}`
 
       nameList.forEach(async item => {
         const contact =
@@ -49,7 +50,7 @@ export const task = async () => {
       // 网易云文案
       const netEaseMusicComment = await getNetEaseMusicComment()
 
-      let strEnd = `\n小寒下班啦！\n---小寒🥳\n\n${friendsCircle}\n\n${netEaseMusicComment}`
+      let strEnd = `\n你的小寒下班啦！\n\n${friendsCircle}\n\n${netEaseMusicComment}`
 
       nameList.forEach(async item => {
         const contact =
