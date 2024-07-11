@@ -12,6 +12,9 @@ const aliasWhiteList = env.ALIAS_WHITELIST ? env.ALIAS_WHITELIST.split(',') : []
 // 从环境变量中导入群聊白名单
 const roomWhiteList = env.ROOM_WHITELIST ? env.ROOM_WHITELIST.split(',') : []
 
+// 导入对接的其他接口
+import {getOtherServe} from '../answers/serve.js'
+
 import { getServe } from './serve.js'
 
 /**
@@ -40,6 +43,7 @@ export async function defaultMessage(msg, bot, ServiceType = 'GPT') {
   try {
     // 区分群聊和私聊
     if (isRoom && room) {
+      console.log(content,'111');
       const question = (await msg.mentionText()) || content.replace(`${botName}`, '') // 去掉艾特的消息主体
       console.log('🌸🌸🌸 / question: ', question)
       const response = await getReply(question)
@@ -50,6 +54,11 @@ export async function defaultMessage(msg, bot, ServiceType = 'GPT') {
       console.log('🌸🌸🌸 / content: ', content)
       const response = await getReply(content)
       await contact.say(response)
+    }
+    // 群聊 不@ 的发送其他接口
+    if((!isRoom && room)){
+      const response = await getOtherServe(content)
+      await room.say(response)
     }
   } catch (e) {
     console.error(e)

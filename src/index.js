@@ -18,6 +18,7 @@ const { version, name } = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..
 function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout ) {
     // 在控制台显示二维码
+    console.log('微信登陆码',qrcode);
     qrTerminal.generate(qrcode, { small: true })
     const qrcodeImageUrl = ['https://api.qrserver.com/v1/create-qr-code/?data=', encodeURIComponent(qrcode)].join('')
     console.log('onScan:', qrcodeImageUrl, ScanStatus[status], status)
