@@ -119,7 +119,7 @@ export async function getWeather(city) {
   if(res.data.code===250){
     return '查询错误～'
   }else{
-    const data =`${word}今日天气: \n
+    const data =`${word}今日天气:
 日期：${res.data.result.date}
 星期：${res.data.result.week}
 地点：${res.data.result.province}${res.data.result.area}

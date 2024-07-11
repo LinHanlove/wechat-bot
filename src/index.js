@@ -3,6 +3,7 @@ import { WechatyBuilder, ScanStatus, log } from 'wechaty'
 import inquirer from 'inquirer'
 import qrTerminal from 'qrcode-terminal'
 import dotenv from 'dotenv'
+import {task} from './answers/task.js'
 
 import fs from 'fs'
 import path, { dirname } from 'path'
@@ -33,6 +34,7 @@ function onLogin(user) {
   const date = new Date()
   console.log(`Current time:${date}`)
   console.log(`Automatic robot chat mode has been activated`)
+  task()
 }
 
 // 登出
