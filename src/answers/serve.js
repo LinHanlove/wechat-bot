@@ -35,10 +35,10 @@ export const getOtherServe = (content) => {
         return getGoodNight();
 
     default:
-      if (content.includes('查天气')) { 
+      if (content.includes('天气')) { 
         return getWeather(content);ç
       }
-      if (content.includes('查花语')) { 
+      if (content.includes('花语')) { 
         return getFlowerLanguage(content);
       }
       return; // 默认情况下返回一个提示信息

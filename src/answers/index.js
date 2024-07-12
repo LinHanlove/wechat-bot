@@ -1,6 +1,9 @@
 import axios from 'axios'
 import dotenv from 'dotenv'
+import { cityCode } from '../utils/city.js'
+import {fuzzyMatchByProperty} from 'atom-tools'
 const env = dotenv.config().parsed // 环境参数
+
 
 const key = env.SERVICE_KEY || '0d8b02c2174cf3f6a4b57cd622e929a0'
 /**
@@ -104,46 +107,49 @@ export async function getWeiBoHot() {
  * @function 查天气
  */
 export async function getWeather(city) {
-  console.log(city,'city');
-  const word = city.replace('查天气', '')
+
+  const cityName = city.replace('天气', '')
+
+ const word = await fuzzyMatchByProperty({
+    array:cityCode,
+    prop:'city_name',
+    key:cityName,
+  })
+
   const res = await axios.get(
-    'https://apis.tianapi.com/tianqi/index',
-    {
-        params: {
-        key,
-        city:word,
-        type:1
-      },
-    }
-  ) 
-  if(res.data.code===250){
+    `http://t.weather.itboy.net/api/weather/city/${word[0]?word[0].city_code : ''}`) 
+
+  if(res.data.status===404){
     return '查询错误～'
   }else{
-    const data =`${word}今日天气:
-日期：${res.data.result.date}
-星期：${res.data.result.week}
-地点：${res.data.result.province}${res.data.result.area}
-天气🌈：${res.data.result.weather}
-温度：${res.data.result.lowest}~${res.data.result.highest}
-空气质量：${res.data.result.quality}
-风向💨：${res.data.result.wind}
-风速（km/h）： ${res.data.result.windspeed}
-风力： ${res.data.result.windsc}
-紫外线强度指数： ${res.data.result.uv_index	}
-小寒提示🤪： ${res.data.result.tips}
-      `
-      console.log('天气', res.data);
-      return data
+    let data =`
+${res.data.cityInfo.parent}${res.data.cityInfo.city}
+湿度：${res.data.data.shidu}
+空气质量：${res.data.data.quality}
+pm2.5：${res.data.data.pm25}
+pm10：${res.data.data.pm10}
+`
+res.data.data.forecast.forEach((i,idx) => {
+  if(idx <3){
+data+=`
+${i.ymd}  ${i.week}  ${i.type}🌈
+${i.low} ～ ${i.high}
+日出日落🌄：${i.sunrise} ～ ${i.sunset}
+🌬️${i.fx} ${i.fl}
+小寒提示🔔：${i.notice}
+`
   }
 
-
+});
+      return data
+  }
 }
 
 /**
  * @function 花语
  */
 export async function getFlowerLanguage(flower) {
-  const word = flower.replace('查花语', '')
+  const word = flower.replace('花语', '')
   const res = await axios.get(
     'https://apis.tianapi.com/huayu/index',
     {

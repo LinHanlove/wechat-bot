@@ -25,6 +25,8 @@ export const task = async () => {
       const hangZhouWeather = await getWeather('杭州')
       const guangZhouWeather = await getWeather('广州')
       const ninBoWeather = await getWeather('宁波')
+      const wuShanXianWeather = await getWeather('武山县')
+      const yiChangWeather = await getWeather('宜昌')
 
       // 文案
       const friendsCircle = await getFriendsCircle()
@@ -32,6 +34,8 @@ export const task = async () => {
       let strStartHangZhou = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${hangZhouWeather}`
       let strStartGuangZhou = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${guangZhouWeather}`
       let strStartNinBo = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${ninBoWeather}`
+      let strStartWuShanXian = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${wuShanXianWeather}`
+      let strStartYiChang = `\n你的小寒开始工作啦！\n\n${goodMorning}\n\n${friendsCircle}\n\n${yiChangWeather}`
 
       nameList.forEach(async item => {
         const contact =
@@ -41,7 +45,12 @@ export const task = async () => {
           contact.say(strStartGuangZhou) 
         }else if(item=== '王一丁'){
           contact.say(strStartNinBo)
-        }else{
+        }else if(item ==='妈妈' || item ==='文霞'){
+          contact.say(strStartWuShanXian)
+        }else if(item === '阿罪'){
+          contact.say(strStartYiChang)
+        }
+        else{
           contact.say(strStartHangZhou) 
         }
       })
