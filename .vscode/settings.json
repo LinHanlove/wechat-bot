@@ -1,3 +1,168 @@
 {
-  "cSpell.words": ["kimi", "xunfei"]
+  /************************** S 编辑器和文件关联设置  ****************************************/
+  // 设置 Tab 键的空格数为 2
+  "editor.tabSize": 2,
+  // 定义特定文件后缀与语言模式的关联
+  "files.associations": {
+    "*.wxss": "css", // 将 .wxss 文件关联为 CSS 模式
+    "*.acss": "css", // 将 .acss 文件关联为 CSS 模式
+    "*.less": "less", // 将 .less 文件关联为 LESS 模式
+    "*.scss": "scss", // 将 .scss 文件关联为 SCSS 模式
+    "*.vue": "vue", // 将 .vue 文件关联为 Vue 模式
+    "*.wxml": "html", // 将 .wxml 文件关联为 HTML 模式
+    "*.axml": "html", // 将 .axml 文件关联为 HTML 模式
+    "*.wxs": "javascript", // 将 .wxs 文件关联为 JavaScript 模式
+    "*.sjs": "javascript" // 将 .sjs 文件关联为 JavaScript 模式
+  },
+  // 配置 emmet 插件对特定语言的扩展支持
+  "emmet.includeLanguages": {
+    "wxml": "html", // 将 wxml 语法视为 HTML
+    "axml": "html" // 将 axml 语法视为 HTML
+  },
+  // 配置 emmet 语法配置文件
+  "emmet.syntaxProfiles": {
+    "vue-html": "html", // Vue 文件中的 HTML 部分使用 HTML 配置
+    "vue": "html", // Vue 文件使用 HTML 配置
+    "axml": "html" // axml 文件使用 HTML 配置
+  },
+  /************************** E 编辑器和文件关联设置  ****************************************/
+
+  /************************** S 格式化与验证设置  ****************************************/
+  // 保存时自动格式化代码、运行 eslint 和 stylelint
+  "editor.formatOnSave": true,
+  // 保存时执行的代码操作
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit" // 明确地修复所有 eslint 问题
+  },
+  // 关闭内置的 HTML、JS 和 TS 格式化工具
+  "html.format.enable": false,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  // 使用 eslint 来格式化 JS 和 TS 文件
+  "eslint.format.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.run": "onSave", // 在保存时运行 eslint
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  // 防止编辑器内置 linter 与插件冲突
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  // 启用 stylelint 并关闭其他 CSS 验证器
+  "stylelint.enable": true,
+  /************************** E 格式化与验证设置  ****************************************/
+
+  /************************** S 默认格式化工具设置  ****************************************/
+  // 设置特定语言的默认格式化工具
+  "[html]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint" // 使用 prettier 格式化 HTML
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // 使用 eslint 格式化 JS
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features" // 使用 VSCode 内置格式化器格式化 JSON
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint", // 不使用默认格式化器
+    "editor.tabSize": 2 // 设置 TS 文件的 Tab 空格数
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // 不格式化
+    // "editor.defaultFormatter": "dbaeumer.vscode-eslint" // 使用 prettier 格式化 Vue
+  },
+
+  /************************** E 默认格式化工具设置  ****************************************/
+
+  /************************** S Vetur 和 Live Server 插件设置  *********************************/
+  // 使用 Vetur 插件格式化 Vue 文件中的 HTML，其他使用 eslint 和 stylelint
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "vetur.format.defaultFormatter.js": "none",
+  "vetur.format.defaultFormatter.ts": "none",
+  "vetur.format.defaultFormatter.less": "none",
+  "vetur.format.defaultFormatter.scss": "none",
+  "vetur.format.defaultFormatter.sass": "none",
+  "vetur.format.defaultFormatterOptions": {
+    "wrap_attributes": "aligned-multiple" // 格式化 HTML 属性时的对齐方式
+  },
+  // 微信小程序扩展配置
+  "minapp-vscode.disableAutoConfig": true,
+  // TypeScript 扩展配置
+  "javascript.updateImportsOnFileMove.enabled": "never", // 移动文件时不自动更新导入
+  "typescript.updateImportsOnFileMove.enabled": "always", // TS 文件移动时自动更新导入
+  // Live Server 配置
+  "liveServer.settings.donotShowInfoMsg": true, // 不显示 Live Server 的信息提示
+  "liveServer.settings.root": "/dist/", // Live Server 根目录
+  "liveServer.settings.file": "index.html", // Live Server 入口文件
+  "liveServer.settings.host": "127.0.0.1", // Live Server 地址
+  "liveServer.settings.port": 5500, // Live Server 端口
+  "liveServer.settings.proxy": {
+    // 代理配置
+    "enable": true, // 开启代理
+    "baseUri": "/api/", // 代理的基础 URI
+    "proxyUri": "http://xxx/api" // 代理的目标 URL
+  },
+  /************************** E Vetur 和 Live Server 插件设置  *********************************/
+
+  /************************** S 其他 VSCode 设置  ****************************************/
+  "glassit.alpha": 250,
+  "Codegeex.Privacy": true,
+  "terminal.integrated.accessibleViewFocusOnCommandExecution": true,
+  "terminal.explorerKind": "external",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "tailwind-fold.autoFold": true,
+  "[scss]": {
+    "editor.defaultFormatter": "vscode.css-language-features" // 使用 VSCode 内置格式化器格式化 SCSS
+  },
+  "git.confirmSync": false, // 在同步时不进行确认
+  "git.enableSmartCommit": true, // 启用智能提交
+  "explorer.confirmDelete": false, // 删除文件或文件夹时不进行确认
+  "security.workspace.trust.untrustedFiles": "open", // 打开不受信任的工作区文件
+  "explorer.confirmDragAndDrop": false, // 在资源管理器中拖放文件或文件夹时不进行确认
+  /************************** E 其他 VSCode 设置  ****************************************/
+
+  /************************** S 视觉效果设置  ****************************************/
+  // 开启平滑的光标动画效果
+  "editor.cursorSmoothCaretAnimation": "on",
+  // 设置编辑器的字体
+  "editor.fontFamily": "Input Mono, monospace",
+  // 启用括号对的指引线
+  "editor.guides.bracketPairs": "active",
+  // 显示行号为间隔式
+  "editor.lineNumbers": "interval",
+  // 渲染空白字符仅在边界，当前未启用
+  // "editor.renderWhitespace": "boundary",
+  // 自动检测颜色主题
+  "window.autoDetectColorScheme": true,
+  // 设置工作台的颜色主题
+  "workbench.colorTheme": "Vitesse Dark",
+  // 编辑器标签页操作的位置
+  "workbench.editor.tabActionLocation": "left",
+  // 设置字体抗锯齿
+  "workbench.fontAliasing": "antialiased",
+  // 设置工作台的图标主题
+  "workbench.iconTheme": "vscode-icons",
+  // 列表滚动时使用平滑滚动
+  "workbench.list.smoothScrolling": true,
+  // 首选的深色主题
+  "workbench.preferredDarkColorTheme": "Vitesse Dark",
+  // 首选的浅色主题
+  "workbench.preferredLightColorTheme": "Vitesse Light",
+  // 设置产品图标主题
+  "workbench.productIconTheme": "icons-carbon",
+  // 侧边栏的位置
+  "workbench.sideBar.location": "left",
+  // 启动时打开新未命名文件
+  "workbench.startupEditor": "newUntitledFile",
+  // 单击展开树状视图
+  "workbench.tree.expandMode": "singleClick",
+  // 树状视图的缩进量
+  "workbench.tree.indent": 10,
+  "vs-code-prettier-eslint.prettierLast": true
+  /************************** E 视觉效果设置  ****************************************/
 }

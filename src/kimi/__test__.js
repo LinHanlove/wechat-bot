@@ -1,8 +1,8 @@
-import { getKimiReply } from './index.js'
+import { getKimiReply } from "./index.js";
 
 // 测试 open ai api
 async function test() {
-  const message = await getKimiReply('你好!')
-  console.log('🌸🌸🌸 / message: ', message)
+  const message = await getKimiReply("你好!");
+  console.log("🌸🌸🌸 / message: ", message);
 }
-test()
+test();

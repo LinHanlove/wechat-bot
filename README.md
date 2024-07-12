@@ -84,7 +84,7 @@ yarn dev # 或者 yarn start
 为了兼容 docker 部署，避免不必要的选择交互，新增指定服务运行
 
 ```sh
-# 运行指定服务 （ 目前支持 ChatGPT | Kimi | Xunfei ）
+# 运行指定服务 （ 目前支持 ChatGPT | Kimi | coze ）
 npm run start -- --serve Kimi
 # 交互选择服务，仍然保持原有的逻辑
 npm run start

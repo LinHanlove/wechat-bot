@@ -1,7 +1,6 @@
-import { getGptReply } from '../openai/index.js'
-import { getKimiReply } from '../kimi/index.js'
-import { getXunfeiReply } from '../xunfei/index.js'
-import { getCozeReply } from '../coze/index.js'
+import { getGptReply } from "../openai/index.js";
+import { getKimiReply } from "../kimi/index.js";
+import { getCozeReply } from "../coze/index.js";
 
 /**
  * 获取ai服务
@@ -10,15 +9,13 @@ import { getCozeReply } from '../coze/index.js'
  */
 export function getServe(serviceType) {
   switch (serviceType) {
-    case 'ChatGPT':
-      return getGptReply
-    case 'Kimi':
-      return getKimiReply
-    case 'Xunfei':
-      return getXunfeiReply
-    case 'coze':
-      return getCozeReply
+    case "ChatGPT":
+      return getGptReply;
+    case "Kimi":
+      return getKimiReply;
+    case "coze":
+      return getCozeReply;
     default:
-      return getGptReply
+      return getGptReply;
   }
 }
