@@ -89,8 +89,8 @@ export const task = async () => {
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
 
-      contact.say("小寒🤡\n一天结束啦～\n晚安～早点睡😪");
       await sleep(1500 * idx);
+      contact.say("小寒🤡\n一天结束啦～\n晚安～早点睡😪");
       contact.say(fileBox);
     });
   });
