@@ -8,6 +8,7 @@ import {
   getWeather,
   getFriendsCircle,
   getNetEaseMusicComment,
+  getFishCalendar,
 } from "./index.js";
 const env = dotenv.config().parsed; // 环境参数
 
@@ -16,8 +17,8 @@ const nameList = env.SCHEDULED_TASK_CONTACTS.split(",") || [];
  * @function 每日任务
  */
 export const task = async () => {
-  // 每天的 08:00 执行任务
-  schedule.scheduleJob("0 8 * * *", async () => {
+  // 工作日的 08:00 执行任务
+  schedule.scheduleJob("0 8 * * 1-5", async () => {
     // 早安
     const goodMorning = await getGoodMorning();
 
@@ -61,8 +62,23 @@ export const task = async () => {
     });
   });
 
-  // 每天的 18:00 执行任务
-  schedule.scheduleJob("0 18 * * *", async () => {
+  // 工作日的 09:00 执行任务
+  schedule.scheduleJob("0 9 * * 1-5", async () => {
+    // 摸鱼日历
+    const fishCalendar = await getFishCalendar();
+    nameList.forEach(async (item, idx) => {
+      const contact =
+        (await bot.Contact.find({ alias: item })) ||
+        (await bot.Contact.find({ name: item }));
+
+      await sleep(1500 * idx);
+      contact.say("小寒🤡\n打工人上班啦～");
+      contact.say(fishCalendar);
+    });
+  });
+
+  // 工作日的 18:00 执行任务
+  schedule.scheduleJob("0 18 * * 1-5", async () => {
     // 文案
     const friendsCircle = await getFriendsCircle();
 

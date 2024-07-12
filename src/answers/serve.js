@@ -9,7 +9,9 @@ import {
   getRainbowPraise,
   getNetEaseMusicComment,
   getGoodMorning,
-  getGoodNight,
+  getACG,
+  getFishCalendar,
+  getBeautifulPicture,
 } from "./index.js";
 
 export const getOtherServe = (content) => {
@@ -38,8 +40,14 @@ export const getOtherServe = (content) => {
     case "早安":
       return getGoodMorning();
 
-    case "晚安":
-      return getGoodNight();
+    case "二次元":
+      return getACG();
+
+    case "摸鱼日历":
+      return getFishCalendar();
+
+    case "美图看看":
+      return getBeautifulPicture();
 
     default:
       if (content.includes("天气")) {

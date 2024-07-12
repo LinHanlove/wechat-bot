@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { FileBox } from "file-box";
 // 加载环境变量
 dotenv.config();
 const env = dotenv.config().parsed; // 环境参数
@@ -64,7 +65,12 @@ export async function defaultMessage(msg, bot, ServiceType = "GPT") {
     // 群聊 不@ 的发送其他接口
     if (!isRoom && room) {
       const response = await getOtherServe(content);
-      await room.say(response);
+      if (typeof response === "string") {
+        await room.say(response);
+      } else if (typeof response === "object" && response.type === "image") {
+        const fileBox = FileBox.fromUrl(response.url);
+        await room.say(fileBox);
+      }
     }
   } catch (e) {
     console.error(e);

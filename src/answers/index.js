@@ -49,19 +49,16 @@ export async function getFriendsCircle() {
  * @function 今日头条
  */
 export async function getTodayNews() {
-  const res = await axios.get("https://apis.tianapi.com/topnews/index", {
-    params: {
-      key,
-    },
-  });
+  const res = await axios.get("https://api.vvhan.com/api/hotlist/toutiao");
   let data = "今日头条：\n";
-  res.data.result.list.map((i) => {
-    data = data.concat(`
+  res.data.data.map((i, idx) => {
+    if (idx < 10) {
+      data = data.concat(`
 标题：${i.title}
-时间：${i.ctime}
-内容：${i.description}
+热度：${i.hot}
 url： ${i.url}
     `);
+    }
   });
   console.log("今日头条", data);
   return data;
@@ -71,18 +68,18 @@ url： ${i.url}
  * @function 微博热搜
  */
 export async function getWeiBoHot() {
-  const res = await axios.get("https://apis.tianapi.com/weibohot/index", {
-    params: {
-      key,
-    },
-  });
+  const res = await axios.get("https://api.vvhan.com/api/hotlist/wbHot");
   let data = "微博热搜: \n";
-  res.data.result.list.map((i) => {
-    data = data.concat(`
-标题：${i.hotword}
-   `);
+  res.data.data.map((i, idx) => {
+    if (idx < 10) {
+      data = data.concat(`
+标题：${i.title}
+热度：${i.hot}
+url： ${i.url}
+    `);
+    }
   });
-  console.log("微博热搜", res.data.result.list);
+  console.log("微博热搜", data);
   return data;
 }
 
@@ -204,4 +201,44 @@ export async function getGoodNight() {
   });
   console.log("晚安", res.data);
   return res.data.result.content;
+}
+
+/**
+ * @function 二次元
+ */
+export async function getACG() {
+  const res = await axios.get(
+    "https://api.vvhan.com/api/wallpaper/acg?type=json"
+  );
+  console.log("二次元", res.data);
+  return {
+    type: "image",
+    url: res.data.url,
+  };
+}
+
+/**
+ * @function 摸鱼日历
+ */
+export async function getFishCalendar() {
+  const res = await axios.get("https://api.vvhan.com/api/moyu?type=json");
+  console.log("摸鱼日历", res.data);
+  return {
+    type: "image",
+    url: res.data.url,
+  };
+}
+
+/**
+ * @function 美图看看
+ */
+export async function getBeautifulPicture() {
+  const res = await axios.get(
+    "https://api.vvhan.com/api/wallpaper/mobileGirl?type=json"
+  );
+  console.log("美图看看", res.data);
+  return {
+    type: "image",
+    url: res.data.url.replace(".webp", ".png"),
+  };
 }
