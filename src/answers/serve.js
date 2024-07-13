@@ -12,6 +12,7 @@ import {
   getACG,
   getFishCalendar,
   getBeautifulPicture,
+  getBeautifulGirls,
 } from "./index.js";
 
 export const getOtherServe = (content) => {
@@ -46,8 +47,11 @@ export const getOtherServe = (content) => {
     case "摸鱼日历":
       return getFishCalendar();
 
-    case "美图看看":
+    case "给朕看看":
       return getBeautifulPicture();
+
+    case "给朕舞一个":
+      return getBeautifulGirls();
 
     default:
       if (content.includes("天气")) {

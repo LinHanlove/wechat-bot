@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import axios from "axios";
 import { FileBox } from "file-box";
 // 加载环境变量
 dotenv.config();
@@ -68,8 +69,18 @@ export async function defaultMessage(msg, bot, ServiceType = "GPT") {
       if (typeof response === "string") {
         await room.say(response);
       } else if (typeof response === "object" && response.type === "image") {
+        // 发送图片
         const fileBox = FileBox.fromUrl(response.url);
         await room.say(fileBox);
+      } else if (typeof response === "object" && response.type === "video") {
+        // 发送视频
+        const videoBuffer = await downloadVideo(response.video);
+        if (videoBuffer) {
+          const fileBox = FileBox.fromBuffer(videoBuffer, "video.mp4");
+          await room.say(fileBox);
+        } else {
+          await room.say("视频下载失败");
+        }
       }
     }
   } catch (e) {
@@ -77,6 +88,35 @@ export async function defaultMessage(msg, bot, ServiceType = "GPT") {
   }
 }
 
+/**
+ * @function 下载视频
+ */
+const downloadVideo = async (videoUrl) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: videoUrl,
+      responseType: "stream",
+    });
+
+    const chunks = [];
+    response.data.on("data", (chunk) => {
+      chunks.push(chunk);
+    });
+
+    return new Promise((resolve, reject) => {
+      response.data.on("end", () => {
+        const buffer = Buffer.concat(chunks);
+        resolve(buffer);
+      });
+
+      response.data.on("error", reject);
+    });
+  } catch (error) {
+    console.error("下载视频失败:", error);
+    return null;
+  }
+};
 /**
  * 分片消息发送
  * @param message

@@ -24,7 +24,7 @@ export const task = async () => {
 
     // 天气
     const hangZhouWeather = await getWeather("杭州");
-    const guangZhouWeather = await getWeather("广州");
+    const guangZhouWeather = await getWeather("白云区");
     const ninBoWeather = await getWeather("宁波");
     const wuShanXianWeather = await getWeather("武山县");
     const yiChangWeather = await getWeather("宜昌");

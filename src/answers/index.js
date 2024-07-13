@@ -230,7 +230,7 @@ export async function getFishCalendar() {
 }
 
 /**
- * @function 美图看看
+ * @function 给朕看看
  */
 export async function getBeautifulPicture() {
   const res = await axios.get(
@@ -240,5 +240,17 @@ export async function getBeautifulPicture() {
   return {
     type: "image",
     url: res.data.url.replace(".webp", ".png"),
+  };
+}
+
+/**
+ * @function 给朕舞一个
+ */
+export async function getBeautifulGirls() {
+  const res = await axios.get("https://api.qqsuu.cn/api/dm-xjj2?type=json");
+  console.log("给朕舞一个", res.data);
+  return {
+    type: "video",
+    video: res.data.video,
   };
 }
