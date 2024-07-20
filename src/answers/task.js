@@ -17,13 +17,35 @@ const nameList = env.SCHEDULED_TASK_CONTACTS.split(",") || [];
  * @function 每日任务
  */
 export const task = async () => {
+  // 工作日的 07:00 执行任务
+  schedule.scheduleJob("0 7 * * 1-6", async () => {
+    // 早安
+    const goodMorning = await getGoodMorning();
+
+    // 天气
+    const hangZhouWeather = await getWeather("杭州");
+
+    // 文案
+    const friendsCircle = await getFriendsCircle();
+
+    let strStartHangZhou = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${hangZhouWeather}`;
+
+    nameList.forEach(async (item, idx) => {
+      const contact =
+        (await bot.Contact.find({ alias: item })) ||
+        (await bot.Contact.find({ name: item }));
+
+      await sleep(1500 * idx);
+      contact.say(strStartHangZhou);
+    });
+  });
+
   // 工作日的 08:00 执行任务
   schedule.scheduleJob("0 8 * * 1-5", async () => {
     // 早安
     const goodMorning = await getGoodMorning();
 
     // 天气
-    const hangZhouWeather = await getWeather("杭州");
     const guangZhouWeather = await getWeather("白云区");
     const ninBoWeather = await getWeather("宁波");
     const wuShanXianWeather = await getWeather("武山县");
@@ -32,7 +54,6 @@ export const task = async () => {
     // 文案
     const friendsCircle = await getFriendsCircle();
 
-    let strStartHangZhou = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${hangZhouWeather}`;
     let strStartGuangZhou = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${guangZhouWeather}`;
     let strStartNinBo = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${ninBoWeather}`;
     let strStartWuShanXian = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${wuShanXianWeather}`;
@@ -55,9 +76,6 @@ export const task = async () => {
       } else if (item === "阿罪") {
         await sleep(1500 * idx);
         contact.say(strStartYiChang);
-      } else {
-        await sleep(1500 * idx);
-        contact.say(strStartHangZhou);
       }
     });
   });
