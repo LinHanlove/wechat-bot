@@ -12,7 +12,18 @@ import {
 } from "./index.js";
 const env = dotenv.config().parsed; // 环境参数
 
-const nameList = env.SCHEDULED_TASK_CONTACTS.split(",") || [];
+// 主要联系人
+const MAIN = env.SCHEDULED_TASK_CONTACTS.split(",") || [];
+
+// 次要联系人
+const OTHER = env.SCHEDULED_TASK_CONTACTS_OTHER.split(",") || [];
+
+// 所有人
+const All =
+  (env.SCHEDULED_TASK_CONTACTS + "," + env.SCHEDULED_TASK_CONTACTS_OTHER).split(
+    ","
+  ) || [];
+
 /**
  * @function 每日任务
  */
@@ -30,7 +41,7 @@ export const task = async () => {
 
     let strStartHangZhou = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${hangZhouWeather}`;
 
-    nameList.forEach(async (item, idx) => {
+    MAIN.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
@@ -59,7 +70,7 @@ export const task = async () => {
     let strStartWuShanXian = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${wuShanXianWeather}`;
     let strStartYiChang = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${yiChangWeather}`;
 
-    nameList.forEach(async (item, idx) => {
+    OTHER.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
@@ -84,7 +95,7 @@ export const task = async () => {
   schedule.scheduleJob("0 9 * * 1-5", async () => {
     // 摸鱼日历
     const fishCalendar = await getFishCalendar();
-    nameList.forEach(async (item, idx) => {
+    All.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
@@ -105,7 +116,7 @@ export const task = async () => {
 
     let strEnd = `\n小寒🤡\n\n${friendsCircle}\n\n${netEaseMusicComment}`;
 
-    nameList.forEach(async (item, idx) => {
+    All.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
@@ -118,7 +129,7 @@ export const task = async () => {
   schedule.scheduleJob("0 23 * * *", async () => {
     const fileBox = FileBox.fromUrl("http://img.92fa.com/pic/TX1695_06.jpg");
 
-    nameList.forEach(async (item, idx) => {
+    All.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
         (await bot.Contact.find({ name: item }));
