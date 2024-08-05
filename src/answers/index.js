@@ -247,10 +247,10 @@ export async function getBeautifulPicture() {
  * @function 给朕舞一个
  */
 export async function getBeautifulGirls() {
-  const res = await axios.get("https://api.qqsuu.cn/api/dm-xjj2?type=json");
+  const res = await axios.get("https://777.cam/api/M/?type=json");
   console.log("给朕舞一个", res.data);
   return {
     type: "video",
-    video: res.data.video,
+    video: res.data.data,
   };
 }
