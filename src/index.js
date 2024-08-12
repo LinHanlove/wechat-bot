@@ -3,12 +3,11 @@ import { WechatyBuilder, ScanStatus, log } from "wechaty";
 import inquirer from "inquirer";
 import qrTerminal from "qrcode-terminal";
 import dotenv from "dotenv";
-import { task } from "./answers/task.js";
-
 import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { defaultMessage } from "./wechaty/sendMessage.js";
+import { task } from "./answers/task.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,37 +16,52 @@ const { version, name } = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
 );
 
-// 扫码
+/**
+ * @function 扫码
+ * @param {*} qrcode
+ * @param {*} status
+ */
 function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
     // 在控制台显示二维码
     console.log("微信登陆码", qrcode);
+
     qrTerminal.generate(qrcode, { small: true });
+
     const qrcodeImageUrl = [
       "https://api.qrserver.com/v1/create-qr-code/?data=",
       encodeURIComponent(qrcode),
     ].join("");
+
     console.log("onScan:", qrcodeImageUrl, ScanStatus[status], status);
   } else {
     log.info("onScan: %s(%s)--->", ScanStatus[status], status);
   }
 }
 
-// 登录
+/**
+ * @function 登录
+ * @param {*} user
+ */
 function onLogin(user) {
   console.log(`${user} has logged in`);
   const date = new Date();
   console.log(`Current time:${date}`);
-  console.log(`Automatic robot chat mode has been activated`);
   task();
 }
 
-// 登出
+/**
+ * @function 登出
+ * @param {*} user
+ */
 function onLogout(user) {
   console.log(`${user} has logged out`);
 }
 
-// 收到好友请求
+/**
+ * @function 好友申请
+ * @param {*} friendship
+ */
 async function onFriendShip(friendship) {
   const frienddShipRe = /chatgpt|chat/;
   if (friendship.type() === 2) {
@@ -74,7 +88,9 @@ async function onMessage(msg) {
 const CHROME_BIN = process.env.CHROME_BIN
   ? { endpoint: process.env.CHROME_BIN }
   : {};
+
 let serviceType = "";
+
 export const bot = WechatyBuilder.build({
   name: "WechatEveryDay",
   puppet: "wechaty-puppet-wechat4u", // 如果有token，记得更换对应的puppet
@@ -97,15 +113,14 @@ bot.on("message", onMessage);
 bot.on("friendship", onFriendShip);
 // 错误
 bot.on("error", (e) => {
-  console.error("❌ bot error handle: ", e);
-  // console.log('❌ 程序退出,请重新运行程序')
-  // bot.stop()
+  console.log("❌ 程序退出,请重新运行程序");
+  bot.stop();
 
-  // // 如果 WechatEveryDay.memory-card.json 文件存在，删除
-  // if (fs.existsSync('WechatEveryDay.memory-card.json')) {
-  //   fs.unlinkSync('WechatEveryDay.memory-card.json')
-  // }
-  // process.exit()
+  // 如果 WechatEveryDay.memory-card.json 文件存在，删除
+  if (fs.existsSync("WechatEveryDay.memory-card.json")) {
+    fs.unlinkSync("WechatEveryDay.memory-card.json");
+  }
+  process.exit();
 });
 
 // 启动微信机器人
@@ -156,6 +171,7 @@ export const serveList = [
   { name: "Kimi", value: "Kimi" },
   { name: "coze", value: "coze" },
 ];
+
 const questions = [
   {
     type: "list",

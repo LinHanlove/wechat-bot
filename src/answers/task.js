@@ -95,6 +95,8 @@ export const task = async () => {
   schedule.scheduleJob("0 9 * * 1-5", async () => {
     // 摸鱼日历
     const fishCalendar = await getFishCalendar();
+    const fileBox = FileBox.fromUrl(fishCalendar.url);
+
     All.forEach(async (item, idx) => {
       const contact =
         (await bot.Contact.find({ alias: item })) ||
@@ -102,7 +104,7 @@ export const task = async () => {
 
       await sleep(1500 * idx);
       contact.say("小寒🤡\n打工人上班啦～");
-      contact.say(fishCalendar);
+      contact.say(fileBox);
     });
   });
 

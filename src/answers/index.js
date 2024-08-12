@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { cityCode } from "../utils/city.js";
+import { binaryArrayToDataURL } from "../utils/index.js";
 import { fuzzyMatchByProperty } from "atom-tools";
 const env = dotenv.config().parsed; // 环境参数
 
@@ -22,7 +23,7 @@ export async function getZhaNanYuLu() {
 /**
  * @function 打工人
  */
-export async function getDaGongRen(name) {
+export async function getDaGongRen() {
   const res = await axios.get("https://apis.tianapi.com/dgryl/index", {
     params: {
       key,
@@ -252,5 +253,24 @@ export async function getBeautifulGirls() {
   return {
     type: "video",
     video: res.data.data,
+  };
+}
+
+/**
+ * @function 艺术签名
+ */
+export async function getArtSignature(nameMsg) {
+  const cityName = nameMsg.replace("艺术签名", "");
+
+  const res = await axios.get(`https://api.52vmy.cn/api/img/tw/qian`, {
+    params: {
+      msg: cityName,
+    },
+  });
+
+  const data = binaryArrayToDataURL(res.data, "image/png");
+  return {
+    type: "image/base64",
+    url: data,
   };
 }

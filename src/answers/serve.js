@@ -13,6 +13,7 @@ import {
   getFishCalendar,
   getBeautifulPicture,
   getBeautifulGirls,
+  getArtSignature,
 } from "./index.js";
 
 export const getOtherServe = (content) => {
@@ -56,10 +57,12 @@ export const getOtherServe = (content) => {
     default:
       if (content.includes("天气")) {
         return getWeather(content);
-        ç;
       }
       if (content.includes("花语")) {
         return getFlowerLanguage(content);
+      }
+      if (content.includes("艺术签名")) {
+        return getArtSignature(content);
       }
       return;
   }

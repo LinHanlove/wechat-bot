@@ -12,11 +12,6 @@
     "test-kimi": "node ./src/kimi/__test__.js",
     "test-coze": "node ./src/coze/__test__.js"
   },
-  "bin": {
-    "we": "./cli.js",
-    "wb": "./cli.js",
-    "wechat-bot": "./cli.js"
-  },
   "author": "atom",
   "license": "ISC",
   "dependencies": {
