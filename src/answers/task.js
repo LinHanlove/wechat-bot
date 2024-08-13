@@ -61,6 +61,7 @@ export const task = async () => {
     const ninBoWeather = await getWeather("宁波");
     const wuShanXianWeather = await getWeather("武山县");
     const yiChangWeather = await getWeather("宜昌");
+    const lanZhouWeather = await getWeather("兰州");
 
     // 文案
     const friendsCircle = await getFriendsCircle();
@@ -69,6 +70,7 @@ export const task = async () => {
     let strStartNinBo = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${ninBoWeather}`;
     let strStartWuShanXian = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${wuShanXianWeather}`;
     let strStartYiChang = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${yiChangWeather}`;
+    let strStartLanZhou = `\n小寒🤡\n\n${goodMorning}\n\n${friendsCircle}\n\n${lanZhouWeather}`;
 
     OTHER.forEach(async (item, idx) => {
       const contact =
@@ -87,6 +89,9 @@ export const task = async () => {
       } else if (item === "阿罪") {
         await sleep(1500 * idx);
         contact.say(strStartYiChang);
+      } else if (item === "Ciao(^O^)") {
+        await sleep(1500 * idx);
+        contact.say(strStartLanZhou);
       }
     });
   });
