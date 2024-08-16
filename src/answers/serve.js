@@ -13,7 +13,9 @@ import {
   getFishCalendar,
   getBeautifulPicture,
   getBeautifulGirls,
-  getArtSignature,
+  getTrainTicket,
+  getFunction,
+  getFayan,
 } from "./index.js";
 
 export const getOtherServe = (content) => {
@@ -61,9 +63,16 @@ export const getOtherServe = (content) => {
       if (content.includes("花语")) {
         return getFlowerLanguage(content);
       }
-      if (content.includes("艺术签名")) {
-        return getArtSignature(content);
+      if (content.includes("火车票查询")) {
+        return getTrainTicket(content);
       }
+      if (content.includes("小寒指令列表")) {
+        return getFunction();
+      }
+      if (content.includes("执行")) {
+        return getFayan(content);
+      }
+
       return;
   }
 };

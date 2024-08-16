@@ -6,6 +6,131 @@ import { fuzzyMatchByProperty } from "atom-tools";
 const env = dotenv.config().parsed; // 环境参数
 
 const key = env.SERVICE_KEY || "0d8b02c2174cf3f6a4b57cd622e929a0";
+
+/**
+ * @function 指令列表
+ */
+
+const instructionList = [
+  {
+    key: "1",
+    value: "渣男语录",
+    type: "general",
+    function: getZhaNanYuLu,
+  },
+  {
+    key: "2",
+    value: "打工人",
+    type: "general",
+    function: getDaGongRen,
+  },
+  {
+    key: "3",
+    value: "朋友圈文案",
+    type: "general",
+    function: getFriendsCircle,
+  },
+  {
+    key: "4",
+    value: "今日头条",
+    type: "general",
+    function: getTodayNews,
+  },
+  {
+    key: "5",
+    value: "微博热搜",
+    type: "general",
+    function: getWeiBoHot,
+  },
+  {
+    key: "6",
+    value: "花语",
+    type: "special",
+  },
+  {
+    key: "7",
+    value: "彩虹屁",
+    type: "general",
+    function: getRainbowPraise,
+  },
+  {
+    key: "8",
+    value: "网易云热评",
+    type: "general",
+    function: getNetEaseMusicComment,
+  },
+  {
+    key: "9",
+    value: "天气查询",
+    type: "special",
+  },
+  {
+    key: "10",
+    value: "火车票查询",
+    type: "special",
+  },
+  {
+    key: "11",
+    value: "摸鱼日历",
+    type: "general",
+    function: getFishCalendar,
+  },
+  {
+    key: "12",
+    value: "二次元",
+    type: "general",
+    function: getACG,
+  },
+  {
+    key: "13",
+    value: "晚安",
+    type: "general",
+    function: getGoodNight,
+  },
+  {
+    key: "14",
+    value: "早安",
+    type: "general",
+    function: getGoodMorning,
+  },
+  {
+    key: "15",
+    value: "给朕看看",
+    type: "general",
+    function: getBeautifulPicture,
+  },
+  {
+    key: "16",
+    value: "给朕舞一个",
+    type: "general",
+    function: getBeautifulGirls,
+  },
+];
+
+export async function getFunction() {
+  return instructionList.reduce((prev, curr) => {
+    return `${prev}\n${curr.key}. ${curr.value}`;
+  }, "小寒指令列表🥳：\n请输入‘执行+编码’执行结果");
+}
+
+/**
+ * @function 言出法随
+ */
+export async function getFayan(str) {
+  const key = str.replace("执行", "").toString();
+  const match = instructionList.map((i) => i.key);
+
+  if (!match.includes(key)) return "指令不存在，请重新输入";
+
+  const res = instructionList.find((i) => i.key === key);
+
+  if (res.type === "general") {
+    return res.function();
+  } else if (res.type === "special") {
+    return "该指令需要特殊操作，具体使用方法，请询问我的爸爸🤡";
+  }
+}
+
 /**
  * @function 渣男语录
  * @returns string
@@ -222,11 +347,13 @@ export async function getACG() {
  * @function 摸鱼日历
  */
 export async function getFishCalendar() {
-  const res = await axios.get("https://api.vvhan.com/api/moyu?type=json");
+  const res = await axios.get(
+    "https://dayu.qqsuu.cn/moyurili/apis.php?type=json"
+  );
   console.log("摸鱼日历", res.data);
   return {
     type: "image",
-    url: res.data.url,
+    url: res.data.data,
   };
 }
 
@@ -257,20 +384,21 @@ export async function getBeautifulGirls() {
 }
 
 /**
- * @function 艺术签名
+ * @function 火车票查询 2024-12-02，杭州到武山，火车票查询
  */
-export async function getArtSignature(nameMsg) {
-  const cityName = nameMsg.replace("艺术签名", "");
+export async function getTrainTicket(word) {
+  const time = word.split("，")[0];
+  const departure = word.split("，")[1].split("到")[0];
+  const arrival = word.split("，")[1].replace("，", "").split("到")[1];
+  console.log("火车票查询", time, departure, arrival);
 
-  const res = await axios.get(`https://api.52vmy.cn/api/img/tw/qian`, {
+  const res = await axios.get("https://api.lolimi.cn/API/hc/api.php", {
     params: {
-      msg: cityName,
+      departure, // 期点
+      arrival, // 终点
+      time,
     },
   });
-
-  const data = binaryArrayToDataURL(res.data, "image/png");
-  return {
-    type: "image/base64",
-    url: data,
-  };
+  console.log("火车票查询", res.data);
+  return res.data;
 }
