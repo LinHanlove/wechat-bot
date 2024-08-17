@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 
 import { FileBox } from "file-box";
-import { downloadVideo } from "../utils/index.js";
+import {
+  downloadVideo,
+  downloadAudio,
+  deleteAudioFiles,
+} from "../utils/index.js";
 // 加载环境变量
 dotenv.config();
 const env = dotenv.config().parsed; // 环境参数
@@ -92,6 +96,12 @@ export async function defaultMessage(msg, bot, ServiceType = "GPT") {
         const fileBox = FileBox.fromBase64(response.url, "image.text");
         console.log(response.url, fileBox);
         await room.say(fileBox);
+      } else if (typeof response === "object" && response.type === "file") {
+        // 发送文件
+        const fileBox = await downloadAudio(response.url, response.title);
+        console.log(response.url, fileBox);
+        await room.say(fileBox);
+        deleteAudioFiles();
       }
     }
   } catch (e) {

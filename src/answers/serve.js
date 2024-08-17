@@ -16,6 +16,7 @@ import {
   getTrainTicket,
   getFunction,
   getFayan,
+  getSong,
 } from "./index.js";
 
 export const getOtherServe = (content) => {
@@ -63,7 +64,7 @@ export const getOtherServe = (content) => {
       if (content.includes("花语")) {
         return getFlowerLanguage(content);
       }
-      if (content.includes("火车票查询")) {
+      if (content.includes("火车票")) {
         return getTrainTicket(content);
       }
       if (content.includes("小寒指令列表")) {
@@ -71,6 +72,9 @@ export const getOtherServe = (content) => {
       }
       if (content.includes("执行")) {
         return getFayan(content);
+      }
+      if (content.includes("点歌")) {
+        return getSong(content);
       }
 
       return;

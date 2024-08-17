@@ -1,7 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { cityCode } from "../utils/city.js";
-import { binaryArrayToDataURL } from "../utils/index.js";
 import { fuzzyMatchByProperty } from "atom-tools";
 const env = dotenv.config().parsed; // 环境参数
 
@@ -104,6 +103,11 @@ const instructionList = [
     value: "给朕舞一个",
     type: "general",
     function: getBeautifulGirls,
+  },
+  {
+    key: "17",
+    value: "平台点歌（vip歌曲暂不支持）",
+    type: "special",
   },
 ];
 
@@ -401,4 +405,35 @@ export async function getTrainTicket(word) {
   });
   console.log("火车票查询", res.data);
   return res.data;
+}
+
+/**
+ * @function 点歌 网易云：netease，QQ：qq，酷狗：kugou
+ *点歌：夜曲-网易云
+ */
+export async function getSong(songName) {
+  const typeList = {
+    网易云: "netease",
+    QQ: "qq",
+    酷狗: "kugou",
+  };
+  const song = songName.split("：")[1].split("-")[0];
+  const type = typeList[songName.split("：")[1].split("-")[1]];
+  const res = await axios.get("https://papi.oxoll.cn/API/music/api.php", {
+    params: {
+      type: type || "netease",
+      music: song,
+    },
+  });
+
+  console.log("点歌", res.data);
+
+  // 获取音频文件的 URL
+  const audioUrl = res.data.data[0].url;
+  const title = res.data.data[0].title;
+  return {
+    type: "file",
+    url: audioUrl,
+    title,
+  };
 }
